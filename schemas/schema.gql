@@ -1,0 +1,39 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type EntranceLog {
+  at: Float!
+  exit: Boolean!
+  accepted: Boolean!
+  suspended: Boolean!
+}
+
+type Report {
+  reason: String!
+  at: Float!
+  reported_by: String!
+  due_date: Float!
+  suspended: Boolean!
+}
+
+type Student {
+  id: ID!
+  name: String!
+  career: String!
+  prev_semester: String!
+  semester: String!
+  gender: String!
+  age: String!
+  shift: String!
+  prev_group: String!
+  group: String!
+  logs: [EntranceLog!]!
+  reports: [Report!]!
+}
+
+type Query {
+  students: [Student!]!
+  studentsFilter(name: String, id: String, group: String, semester: String, career: String, shift: String): [Student!]!
+  student(id: String!): Student!
+}
