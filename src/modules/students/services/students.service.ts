@@ -488,4 +488,16 @@ export class StudentsService {
         student.reports[reportIndex] = { ...student.reports[reportIndex], ...updatedReport };
         return student.save();
     }
+
+    async getUri(id: string) {
+        const uri = await fetch(`http://localhost:${Config.apiPort}/getUri`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!uri.ok) throw new NotFoundException('App class not found');
+
+        const data = await uri.json();
+        return data.redirect_uri;
+    }
 }

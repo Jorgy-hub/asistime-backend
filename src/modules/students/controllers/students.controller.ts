@@ -104,8 +104,8 @@ export class StudentsController {
 
     @Get(':id')
     @Redirect()
-    getStudent(@Param('id') id: string) {
-        this.logger.log(`Redirecting request for student ID: ${id}`);
-        return { url: 'https://preparatoria3.uanl.mx', statusCode: 301 };
+    async getStudent(@Param('id') id: string) { 
+        const redirectUri = await this.studentsService.getUri(id) || 'https://preparatoria3.uanl.mx';
+        return { url: redirectUri, statusCode: 301 };
     }
 }
