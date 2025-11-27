@@ -105,7 +105,7 @@ export class StudentsController {
     @Get(':id')
     @Redirect()
     async getStudent(@Param('id') id: string) { 
-        const redirectUri = await this.studentsService.getUri(id) || 'https://preparatoria3.uanl.mx';
+        const redirectUri = await this.studentsService.getUri("prepa3") || 'https://preparatoria3.uanl.mx';
         return { url: redirectUri, statusCode: 301 };
     }
 }

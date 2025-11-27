@@ -491,8 +491,9 @@ export class StudentsService {
 
     async getUri(id: string) {
         const uri = await fetch(`http://localhost:${Config.apiPort}/getUri`, {
-            method: 'GET',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
         });
 
         if (!uri.ok) throw new NotFoundException('App class not found');

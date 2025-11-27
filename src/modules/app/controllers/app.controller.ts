@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { AppService } from "../services/app.services";
+import { ApiBody } from "@nestjs/swagger";
 
 
 export class CreateAppClassDto {
@@ -10,6 +11,10 @@ export class CreateAppClassDto {
 export class UpdateAppClassDto {
     id: string;
     new_redirect_uri: string;
+}
+
+export class GetAppClassUriDto {
+    id: string;
 }
 
 @Controller("/")
@@ -23,17 +28,20 @@ export class AppController {
     }
 
     @Post('create')
+    @ApiBody({ type: CreateAppClassDto })
     createAppClass(@Body() createAppClassDto: CreateAppClassDto) {
         return this.appService.createAppClass(createAppClassDto);
     }
 
     @Post('updateUri')
+    @ApiBody({ type: UpdateAppClassDto })
     updateAppClass(@Body() updateAppClassDto: UpdateAppClassDto) {
         return this.appService.updateAppClass(updateAppClassDto);
     }
 
-    @Get('getUri')
-    getAppClassUri(@Body() idDto: { id: string }) {
+    @Post('getUri')
+    @ApiBody({ type: GetAppClassUriDto })
+    getAppClassUri(@Body() idDto: GetAppClassUriDto) {
         return this.appService.getAppClassUri(idDto.id);
     }
 }
