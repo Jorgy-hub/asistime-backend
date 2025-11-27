@@ -12,18 +12,18 @@ import { EventsGateway } from "../../../events/events.gateway";
 import { exit } from "process";
 
 type StudentDoc = {
-  _id: any;
-  id: string;
-  name: string;
-  career?: string;
-  prev_semester?: string;
-  semester?: string;
-  gender?: string;
-  age?: string;
-  shift?: string;
-  prev_group?: string;
-  group?: string;
-  logs?: any[];
+    _id: any;
+    id: string;
+    name: string;
+    career?: string;
+    prev_semester?: string;
+    semester?: string;
+    gender?: string;
+    age?: string;
+    shift?: string;
+    prev_group?: string;
+    group?: string;
+    logs?: any[];
 };
 
 @Injectable()
@@ -489,16 +489,18 @@ export class StudentsService {
         return student.save();
     }
 
-    async getUri(id: string) {
-        const uri = await fetch(`http://localhost:${Config.apiPort}/getUri`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id })
+    async getUri(id: string): Promise<string> {
+        const res = await fetch(`http://localhost:${Config.apiPort}/getUri?id=${encodeURIComponent(id)}`, {
+            method: 'GET',
         });
 
-        if (!uri.ok) throw new NotFoundException('App class not found');
+        if (!res.ok) throw new NotFoundException('App class not found');
 
-        const data = await uri.json();
-        return data.redirect_uri;
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+            const json = await res.json();
+            return typeof json === 'string' ? json : json.redirect_uri;
+        }
+        return await res.text(); // raw string
     }
 }

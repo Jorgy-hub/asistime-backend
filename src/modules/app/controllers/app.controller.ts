@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from "@nestjs/common";
+import { Controller, Get, Post, Body, Query, NotFoundException } from "@nestjs/common";
 import { AppService } from "../services/app.services";
 import { ApiBody } from "@nestjs/swagger";
 
@@ -39,9 +39,10 @@ export class AppController {
         return this.appService.updateAppClass(updateAppClassDto);
     }
 
-    @Post('getUri')
-    @ApiBody({ type: GetAppClassUriDto })
-    getAppClassUri(@Body() idDto: GetAppClassUriDto) {
-        return this.appService.getAppClassUri(idDto.id);
+    @Get('getUri')
+    async getAppClassUri(@Query('id') id: string) {
+        const redirect_uri = await this.appService.getAppClassUri(id);
+        if (!redirect_uri) throw new NotFoundException('App class not found');
+        return { redirect_uri };
     }
 }
