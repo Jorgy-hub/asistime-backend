@@ -1,19 +1,24 @@
 import { Controller, Get, Post, Body, Query, NotFoundException } from "@nestjs/common";
 import { AppService } from "../services/app.services";
 import { ApiBody } from "@nestjs/swagger";
-
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateAppClassDto {
+    @ApiProperty()
     id: string;
+    @ApiProperty()
     redirect_uri: string;
 }
 
 export class UpdateAppClassDto {
+    @ApiProperty()
     id: string;
+    @ApiProperty()
     new_redirect_uri: string;
 }
 
 export class GetAppClassUriDto {
+    @ApiProperty()
     id: string;
 }
 
